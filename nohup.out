@@ -1,0 +1,85 @@
+docker: Error response from daemon: Conflict. The container name "/tfserving2" is already in use by container "1431e5f239e7b29c2633e542e321fe73fa7533e42d9474b1b419c24b47098376". You have to remove (or rename) that container to be able to reuse that name.
+See 'docker run --help'.
+2021-07-27 06:34:49.764688: I external/org_tensorflow/tensorflow/stream_executor/platform/default/dso_loader.cc:53] Successfully opened dynamic library libcudart.so.11.0
+unknown argument: --config=cuda
+usage: tensorflow_model_server
+Flags:
+	--port=8500                      	int32	TCP port to listen on for gRPC/HTTP API. Disabled if port set to zero.
+	--grpc_socket_path=""            	string	If non-empty, listen to a UNIX socket for gRPC API on the given path. Can be either relative or absolute path.
+	--rest_api_port=0                	int32	Port to listen on for HTTP/REST API. If set to zero HTTP/REST API will not be exported. This port must be different than the one specified in --port.
+	--rest_api_num_threads=160       	int32	Number of threads for HTTP/REST API processing. If not set, will be auto set based on number of CPUs.
+	--rest_api_timeout_in_ms=30000   	int32	Timeout for HTTP/REST API calls.
+	--rest_api_enable_cors_support=false	bool	Enable CORS headers in response
+	--enable_batching=false          	bool	enable batching
+	--allow_version_labels_for_unavailable_models=false	bool	If true, allows assigning unused version labels to models that are not available yet.
+	--batching_parameters_file=""    	string	If non-empty, read an ascii BatchingParameters protobuf from the supplied file name and use the contained values instead of the defaults.
+	--model_config_file=""           	string	If non-empty, read an ascii ModelServerConfig protobuf from the supplied file name, and serve the models in that file. This config file can be used to specify multiple models to serve and other advanced parameters including non-default version policy. (If used, --model_name, --model_base_path are ignored.)
+	--model_config_file_poll_wait_seconds=0	int32	Interval in seconds between each poll of the filesystemfor model_config_file. If unset or set to zero, poll will be done exactly once and not periodically. Setting this to negative is reserved for testing purposes only.
+	--model_name="default"           	string	name of model (ignored if --model_config_file flag is set)
+	--model_base_path=""             	string	path to export (ignored if --model_config_file flag is set, otherwise required)
+	--num_load_threads=0             	int32	The number of threads in the thread-pool used to load servables. If set as 0, we don't use a thread-pool, and servable loads are performed serially in the manager's main work loop, may casue the Serving request to be delayed. Default: 0
+	--num_unload_threads=0           	int32	The number of threads in the thread-pool used to unload servables. If set as 0, we don't use a thread-pool, and servable loads are performed serially in the manager's main work loop, may casue the Serving request to be delayed. Default: 0
+	--max_num_load_retries=5         	int32	maximum number of times it retries loading a model after the first failure, before giving up. If set to 0, a load is attempted only once. Default: 5
+	--load_retry_interval_micros=60000000	int64	The interval, in microseconds, between each servable load retry. If set negative, it doesn't wait. Default: 1 minute
+	--file_system_poll_wait_seconds=1	int32	Interval in seconds between each poll of the filesystem for new model version. If set to zero poll will be exactly done once and not periodically. Setting this to negative value will disable polling entirely causing ModelServer to indefinitely wait for a new model at startup. Negative values are reserved for testing purposes only.
+	--flush_filesystem_caches=true   	bool	If true (the default), filesystem caches will be flushed after the initial load of all servables, and after each subsequent individual servable reload (if the number of load threads is 1). This reduces memory consumption of the model server, at the potential cost of cache misses if model files are accessed after servables are loaded.
+	--tensorflow_session_parallelism=0	int64	Number of threads to use for running a Tensorflow session. Auto-configured by default.Note that this option is ignored if --platform_config_file is non-empty.
+	--tensorflow_intra_op_parallelism=0	int64	Number of threads to use to parallelize the executionof an individual op. Auto-configured by default.Note that this option is ignored if --platform_config_file is non-empty.
+	--tensorflow_inter_op_parallelism=0	int64	Controls the number of operators that can be executed simultaneously. Auto-configured by default.Note that this option is ignored if --platform_config_file is non-empty.
+	--ssl_config_file=""             	string	If non-empty, read an ascii SSLConfig protobuf from the supplied file name and set up a secure gRPC channel
+	--platform_config_file=""        	string	If non-empty, read an ascii PlatformConfigMap protobuf from the supplied file name, and use that platform config instead of the Tensorflow platform. (If used, --enable_batching is ignored.)
+	--per_process_gpu_memory_fraction=0.000000	float	Fraction that each process occupies of the GPU memory space the value is between 0.0 and 1.0 (with 0.0 as the default) If 1.0, the server will allocate all the memory when the server starts, If 0.0, Tensorflow will automatically select a value.
+	--saved_model_tags="serve"       	string	Comma-separated set of tags corresponding to the meta graph def to load from SavedModel.
+	--grpc_channel_arguments=""      	string	A comma separated list of arguments to be passed to the grpc server. (e.g. grpc.max_connection_age_ms=2000)
+	--grpc_max_threads=160           	int32	Max grpc server threads to handle grpc messages.
+	--enable_model_warmup=true       	bool	Enables model warmup, which triggers lazy initializations (such as TF optimizations) at load time, to reduce first request latency.
+	--version=false                  	bool	Display version
+	--monitoring_config_file=""      	string	If non-empty, read an ascii MonitoringConfig protobuf from the supplied file name
+	--remove_unused_fields_from_bundle_metagraph=true	bool	Removes unused fields from MetaGraphDef proto message to save memory.
+	--prefer_tflite_model=false      	bool	EXPERIMENTAL; CAN BE REMOVED ANYTIME! Prefer TensorFlow Lite model from `model.tflite` file in SavedModel directory, instead of the TensorFlow model from `saved_model.pb` file. If no TensorFlow Lite model found, fallback to TensorFlow model.
+	--num_tflite_pools=40            	int32	EXPERIMENTAL; CAN BE REMOVED ANYTIME! Number of TFLite interpreters in an interpreter pool of TfLiteSession. Typically there is one TfLiteSession for each TF Lite model that is loaded. If not set, will be auto set based on number of CPUs.
+	--num_tflite_interpreters_per_pool=1	int32	EXPERIMENTAL; CAN BE REMOVED ANYTIME! Number of TFLite interpreters in an interpreter pool of TfLiteSession. Typically there is one TfLiteSession for each TF Lite model that is loaded. If not set, will be 1.
+	--enable_signature_method_name_check=false	bool	Enable method_name check for SignatureDef. Disable this if serving native TF2 regression/classification models.
+	--xla_cpu_compilation_enabled=false	bool	EXPERIMENTAL; CAN BE REMOVED ANYTIME! Enable XLA:CPU JIT (default is disabled). With XLA:CPU JIT disabled, models utilizing this feature will return bad Status on first compilation request.
+	--enable_profiler=true           	bool	Enable profiler service.
+2021-07-27 06:34:49.824563: I tensorflow_serving/model_servers/server_core.cc:465] Adding/updating models.
+2021-07-27 06:34:49.824607: I tensorflow_serving/model_servers/server_core.cc:591]  (Re-)adding model: latency_test_model
+2021-07-27 06:34:49.924927: I tensorflow_serving/core/basic_manager.cc:740] Successfully reserved resources to load servable {name: latency_test_model version: 1}
+2021-07-27 06:34:49.924987: I tensorflow_serving/core/loader_harness.cc:66] Approving load for servable version {name: latency_test_model version: 1}
+2021-07-27 06:34:49.925023: I tensorflow_serving/core/loader_harness.cc:74] Loading servable version {name: latency_test_model version: 1}
+2021-07-27 06:34:49.925085: I external/org_tensorflow/tensorflow/cc/saved_model/reader.cc:38] Reading SavedModel from: /models/MultiModel/latency_test_model/1
+2021-07-27 06:34:49.951538: I external/org_tensorflow/tensorflow/cc/saved_model/reader.cc:90] Reading meta graph with tags { serve }
+2021-07-27 06:34:49.951602: I external/org_tensorflow/tensorflow/cc/saved_model/reader.cc:132] Reading SavedModel debug info (if present) from: /models/MultiModel/latency_test_model/1
+2021-07-27 06:34:49.951788: I external/org_tensorflow/tensorflow/core/platform/cpu_feature_guard.cc:142] This TensorFlow binary is optimized with oneAPI Deep Neural Network Library (oneDNN) to use the following CPU instructions in performance-critical operations:  AVX2 FMA
+To enable them in other operations, rebuild TensorFlow with the appropriate compiler flags.
+2021-07-27 06:34:49.956515: I external/org_tensorflow/tensorflow/stream_executor/platform/default/dso_loader.cc:53] Successfully opened dynamic library libcuda.so.1
+2021-07-27 06:34:50.008883: I external/org_tensorflow/tensorflow/core/common_runtime/gpu/gpu_device.cc:1733] Found device 0 with properties: 
+pciBusID: 0000:02:00.0 name: Tesla P40 computeCapability: 6.1
+coreClock: 1.531GHz coreCount: 30 deviceMemorySize: 22.38GiB deviceMemoryBandwidth: 323.21GiB/s
+2021-07-27 06:34:50.008948: I external/org_tensorflow/tensorflow/stream_executor/platform/default/dso_loader.cc:53] Successfully opened dynamic library libcudart.so.11.0
+2021-07-27 06:34:50.014669: I external/org_tensorflow/tensorflow/stream_executor/platform/default/dso_loader.cc:53] Successfully opened dynamic library libcublas.so.11
+2021-07-27 06:34:50.014723: I external/org_tensorflow/tensorflow/stream_executor/platform/default/dso_loader.cc:53] Successfully opened dynamic library libcublasLt.so.11
+2021-07-27 06:34:50.016578: I external/org_tensorflow/tensorflow/stream_executor/platform/default/dso_loader.cc:53] Successfully opened dynamic library libcufft.so.10
+2021-07-27 06:34:50.016936: I external/org_tensorflow/tensorflow/stream_executor/platform/default/dso_loader.cc:53] Successfully opened dynamic library libcurand.so.10
+2021-07-27 06:34:50.018531: I external/org_tensorflow/tensorflow/stream_executor/platform/default/dso_loader.cc:53] Successfully opened dynamic library libcusolver.so.11
+2021-07-27 06:34:50.019913: I external/org_tensorflow/tensorflow/stream_executor/platform/default/dso_loader.cc:53] Successfully opened dynamic library libcusparse.so.11
+2021-07-27 06:34:50.020100: I external/org_tensorflow/tensorflow/stream_executor/platform/default/dso_loader.cc:53] Successfully opened dynamic library libcudnn.so.8
+2021-07-27 06:34:50.024892: I external/org_tensorflow/tensorflow/core/common_runtime/gpu/gpu_device.cc:1871] Adding visible gpu devices: 0
+2021-07-27 06:34:50.794785: I external/org_tensorflow/tensorflow/core/common_runtime/gpu/gpu_device.cc:1258] Device interconnect StreamExecutor with strength 1 edge matrix:
+2021-07-27 06:34:50.794848: I external/org_tensorflow/tensorflow/core/common_runtime/gpu/gpu_device.cc:1264]      0 
+2021-07-27 06:34:50.794866: I external/org_tensorflow/tensorflow/core/common_runtime/gpu/gpu_device.cc:1277] 0:   N 
+2021-07-27 06:34:50.801302: I external/org_tensorflow/tensorflow/core/common_runtime/gpu/gpu_device.cc:1418] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 22142 MB memory) -> physical GPU (device: 0, name: Tesla P40, pci bus id: 0000:02:00.0, compute capability: 6.1)
+2021-07-27 06:34:50.865010: I external/org_tensorflow/tensorflow/cc/saved_model/loader.cc:206] Restoring SavedModel bundle.
+2021-07-27 06:34:50.868960: I external/org_tensorflow/tensorflow/core/platform/profile_utils/cpu_utils.cc:114] CPU Frequency: 2197320000 Hz
+2021-07-27 06:34:51.426023: I external/org_tensorflow/tensorflow/cc/saved_model/loader.cc:190] Running initialization op on SavedModel bundle at path: /models/MultiModel/latency_test_model/1
+2021-07-27 06:34:51.477865: I external/org_tensorflow/tensorflow/cc/saved_model/loader.cc:277] SavedModel load for tags { serve }; Status: success: OK. Took 1552780 microseconds.
+2021-07-27 06:34:51.480369: I tensorflow_serving/servables/tensorflow/saved_model_bundle_factory.cc:175] Wrapping session to perform batch processing
+2021-07-27 06:34:51.480428: I tensorflow_serving/servables/tensorflow/bundle_factory_util.cc:64] Wrapping session to perform batch processing
+2021-07-27 06:34:51.480529: I tensorflow_serving/servables/tensorflow/saved_model_warmup_util.cc:59] No warmup data file found at /models/MultiModel/latency_test_model/1/assets.extra/tf_serving_warmup_requests
+2021-07-27 06:34:51.481828: I tensorflow_serving/core/loader_harness.cc:87] Successfully loaded servable version {name: latency_test_model version: 1}
+2021-07-27 06:34:51.492260: I tensorflow_serving/model_servers/server_core.cc:486] Finished adding/updating models
+2021-07-27 06:34:51.492750: I tensorflow_serving/model_servers/server.cc:367] Profiler service is enabled
+2021-07-27 06:34:51.493916: I tensorflow_serving/model_servers/server.cc:393] Running gRPC ModelServer at 0.0.0.0:8500 ...
+[warn] getaddrinfo: address family for nodename not supported
+2021-07-27 06:34:51.504322: I tensorflow_serving/model_servers/server.cc:414] Exporting HTTP/REST API at:localhost:8501 ...
+[evhttp_server.cc : 245] NET_LOG: Entering the event loop ...
